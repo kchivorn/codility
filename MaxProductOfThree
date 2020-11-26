@@ -1,0 +1,18 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        // write your code in Java SE 8
+        int leftMax = Integer.MIN_VALUE;
+        int rightMax;
+        int n = A.length;
+        Arrays.sort(A);
+        if (A[0] < 0 && A[1] < 0) {
+            leftMax = A[0] * A[1] * A[n-1];
+        }
+        
+        rightMax = A[n-3] * A[n-2] * A[n-1]; 
+
+        return Math.max(leftMax, rightMax);
+    }
+}
