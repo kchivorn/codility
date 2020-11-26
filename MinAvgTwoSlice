@@ -1,0 +1,41 @@
+// you can also use imports, for example:
+// import java.util.*;
+
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        // write your code in Java SE 8
+        double avg2 = 0;
+        double avg3 = 0;
+        int minPos = -1;
+        double minAvg = Double.MAX_VALUE;
+        int n = A.length;
+        double minAvgSlice = 0;
+
+        for (int i=0; i < n-2; i++) {
+            avg2 = (A[i] + A[i+1])/2.0;
+            avg3 = (A[i] + A[i+1] + A[i+2])/3.0;
+
+            if (avg2 < avg3) {
+                minAvgSlice = avg2;
+            } else {
+                minAvgSlice = avg3;
+            }
+
+            if (minAvgSlice < minAvg) {
+                minAvg = minAvgSlice;
+                minPos = i;
+            } 
+        }
+
+        avg2 = (A[n-2] + A[n-1])/2.0;
+        if (avg2 < minAvg) {
+            minAvg = avg2;
+            minPos = n-2;
+        }
+
+        return minPos;
+    }
+}
