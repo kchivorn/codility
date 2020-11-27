@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] H) {
+        int blocks = 1;
+        int n = H.length;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(H[0]);
+        for (int i=1; i<n; i++) {
+            while (!stack.empty()) {
+                if (H[i] < stack.peek()) {
+                    stack.pop();
+                } else if (H[i] > stack.peek()) {
+                    stack.push(H[i]);
+                    blocks++;
+                    break;
+                } else {
+                    break;
+                }
+            }
+            
+            if (stack.empty()) {
+                stack.push(H[i]);
+                blocks++;
+            }
+        }
+        return blocks;
+    }
+}
