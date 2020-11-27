@@ -1,0 +1,20 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = A.length;
+        int half = n/2;
+        if (n==1) return 0;
+        
+        for (int i=0; i < n; i++) {
+            if (map.containsKey(A[i])) {
+                map.put(A[i], map.get(A[i]) + 1);
+                if (map.get(A[i]) > half) return i;
+            } else {
+                map.put(A[i], 1);
+            }
+        }
+        return -1;
+    }
+}
