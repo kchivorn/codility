@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        int n = A.length;
+        int half = n/2;
+        Map<Integer, Integer> map = new HashMap<>();
+        int leader = 1_000_000_001;
+        for(int i=0; i<n; i++) {
+            if (map.containsKey(A[i])) {
+                map.put(A[i], map.get(A[i]) + 1);
+                if (map.get(A[i]) > half) leader = A[i];
+            } else {
+                map.put(A[i], 1);
+            }
+        }
+        if (n == 1) leader = A[0];
+        if (!map.containsKey(leader)) return 0;
+        
+        int left = 0;
+        int right = map.get(leader);
+        int equiLeader = 0;
+        for (int i=0; i < n-1; i++) {
+            if (A[i] == leader) {
+                left++;
+                right--;    
+            }
+
+            if (left > (i+1)/2 && right > (n-i-1)/2) {
+                equiLeader++;
+            }    
+        }
+
+        return equiLeader;
+    }
+}
