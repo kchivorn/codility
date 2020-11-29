@@ -1,0 +1,55 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        int n = A.length;
+        Map<Integer, Boolean> peeks = createPeeks(A);
+        
+        int left = 1;
+        int right = (int) Math.sqrt(n) + 1 ;
+        int mid=1;
+        int flags = 0;
+        while (left <= right) {
+            mid = (left + right)/2;
+            if (checkFlags(mid, peeks)) {
+                flags = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return flags;
+    }
+
+    private Map<Integer, Boolean> createPeeks(int[] A) {
+        Map<Integer, Boolean> peeks = new HashMap<>();
+        int n = A.length;
+        peeks.put(0, false);
+        peeks.put(n-1, false);
+        for (int i=1; i < n-1; i++) {
+            if (A[i-1] < A[i] && A[i] > A[i+1]) {
+                peeks.put(i, true);
+            } else {
+                peeks.put(i, false);
+            }
+        }
+        return peeks;
+    }
+
+    private Boolean checkFlags(int f, Map<Integer, Boolean> peeks) {
+        int n = peeks.size();
+        int flags = f;
+        int pos = 0;
+
+        while (pos < n && flags > 0) {
+            if (peeks.get(pos)) {
+                flags--;
+                pos += f;
+            } else {
+                pos++;
+            }
+        }
+
+        return flags == 0;
+    }
+}
