@@ -1,0 +1,15 @@
+class Solution {
+    public int solution(int N) {
+        int mid = (int) Math.sqrt(N);
+
+        while (mid > 0) {
+            if (N % mid == 0) {
+                break;
+            } else {
+                mid--;
+            }
+        }
+
+        return 2 * (mid + N/mid);
+    }
+}
