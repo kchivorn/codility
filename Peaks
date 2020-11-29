@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        // write your code in Java SE 8
+        int n = A.length;
+        List<Integer> peeks = new ArrayList<>();
+
+        for (int i=1; i < n-1; i++) {
+            if (A[i-1] < A[i] && A[i] > A[i+1]) {
+                peeks.add(i);
+                i++;
+            }
+        }
+
+        if (peeks.size() == 0) return 0;
+
+        int mid = n/2;
+        int blockSize;
+        int blockIndex;
+        for (int numBlocks=mid; numBlocks > 0; numBlocks--) {
+            if (n % numBlocks == 0) {
+                blockSize = n / numBlocks;
+                blockIndex = 0;
+                for (int peek : peeks) {
+                    if (peek / blockSize == blockIndex) {
+                        blockIndex++;
+                    }
+                }
+                if (blockIndex == numBlocks) return numBlocks;
+            }
+        }
+        return 0;
+    }
+}
