@@ -1,0 +1,63 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        int n = A.length;
+        Map<Integer, Boolean> peeks = createPeeks(A);
+        int[] nextPeeks = nextPeek(A, peeks);
+        int res = 0;
+        int flag = 2;
+        int pos;
+        int sum;
+        while (flag * (flag - 1) <= n) {
+            pos = 0;
+            sum = 0;
+            while (pos < n && sum < flag) {
+                pos = nextPeeks[pos];
+                if (pos == -1) {
+                    break;
+                } else {
+                    sum++;
+                    pos += flag;
+                }
+            }
+            res = Math.max(res, sum);
+            flag++;
+        }
+
+        return res;
+    }
+
+    private Map<Integer, Boolean> createPeeks(int[] A) {
+        Map<Integer, Boolean> map = new HashMap<>();
+        int n = A.length;
+
+        map.put(0, false);
+        map.put(n-1, false);
+        for (int i=1; i<n-1; i++) {
+            if (A[i-1] < A[i] && A[i] > A[i+1]) {
+                map.put(i, true);
+            } else {
+                map.put(i, false);
+            }
+        }
+
+        return map;
+    }
+
+    private int[] nextPeek(int[] A, Map<Integer, Boolean> peeks) {
+        int n = A.length;
+        int [] next = new int[n];
+        next[n-1] = -1;
+
+        for (int i=n-2; i>=0; i--) {
+            if (peeks.get(i)) {
+                next[i] = i;
+            } else {
+                next[i] = next[i+1];
+            }
+        }
+
+        return next;
+    }
+}
