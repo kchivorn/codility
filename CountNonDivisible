@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] A) {
+        int n = A.length;
+        Map<Integer, Integer> divisors = new HashMap<>();
+        for (int a : A) {
+            if (divisors.containsKey(a)) {
+                divisors.put(a, divisors.get(a) + 1);
+            } else {
+                divisors.put(a, 1);
+            }
+        }
+        int quotient;
+        int divisorsNum;
+        Map<Integer, Integer> nonDivisors = new HashMap<>();
+        for (int divisor : divisors.keySet()) {
+            int sqrtN = (int) Math.sqrt(divisor);
+            divisorsNum = 0;
+            for (int i=1; i <= sqrtN; i++) {
+                if (divisor % i == 0) {
+                    quotient = divisor / i;
+                    if (divisors.containsKey(i)) {
+                        divisorsNum += divisors.get(i);
+                    }
+
+                    if (quotient != i) {
+                        if (divisors.containsKey(quotient)) {
+                            divisorsNum += divisors.get(quotient);
+                        }
+                    }
+                }
+            }
+            nonDivisors.put(divisor, n - divisorsNum);
+        }
+
+        
+        int[] ans = new int[n];
+        for (int i=0; i < n; i++) {
+            ans[i] = nonDivisors.get(A[i]);
+        }
+
+        return ans;
+    }
+}
