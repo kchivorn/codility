@@ -1,0 +1,58 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int[] minFactors = minFactors(1000_000);
+        int m = A.length;
+        int count = 0;
+        for (int i=0; i < m; i++) {
+            List<Integer> aFactors = getFactors(A[i], minFactors);
+            List<Integer> bFactors = getFactors(B[i], minFactors);
+
+            int aLen = aFactors.size();
+            int bLen = bFactors.size();
+            if (aLen == bLen && aFactors.get(0) == bFactors.get(0) && 
+                aFactors.get(aLen-1) == bFactors.get(bLen-1)) count++;
+        }
+
+        return count;
+    }
+
+    private List<Integer> getFactors(int N, int[] minFactors) {
+        List<Integer> factors = new ArrayList<>();
+        Map<Integer, Boolean> exist = new HashMap<>();
+
+        while (minFactors[N] > 0) {
+            if (!exist.containsKey(minFactors[N])) {
+                factors.add(minFactors[N]);
+                exist.put(minFactors[N], true);
+            }
+            N /= minFactors[N];
+        }
+
+        if (!exist.containsKey(N)) {
+            factors.add(N);
+        }
+        return factors;
+    }
+
+    private int[] minFactors(int N) {
+        int [] factors = new int[N+1];
+        int sqrtN = (int) Math.sqrt(N);
+        int i = 2;
+        int k;
+        while (i <= sqrtN) {
+            if (factors[i] == 0) {
+                k = i * i;
+                while (k <= N) {
+                    if (factors[k] == 0) {
+                        factors[k] = i;
+                    }
+                    k += i;
+                }
+            }
+            i++;
+        }
+        return factors;
+    }
+}
