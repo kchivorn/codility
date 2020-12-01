@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        class Jump {
+            int position;
+            int counter;
+            Jump(int position, int counter) {
+                this.position = position;
+                this.counter = counter;
+            }
+        }
+
+        int n = A.length;
+        List<Integer> fibs = fibonacci(n+1);
+
+        List<Jump> jumps = new ArrayList<>();
+        Jump jump = new Jump(-1, 0);
+        jumps.add(jump);
+        int step = 0;
+        boolean[] stepped = new boolean[n];
+
+        while (jumps.size() != step) {
+            jump = jumps.get(step);
+            step++;
+
+            for (int fib : fibs) {
+                int nextPos = jump.position + fib;
+                if (nextPos == n) return jump.counter+1;
+
+                if (nextPos > n || A[nextPos] == 0 || stepped[nextPos]) continue;
+
+                jumps.add(new Jump(nextPos, jump.counter+1));
+                stepped[nextPos] = true;
+            }
+        }
+        
+        return -1;
+    }
+
+    private List<Integer> fibonacci(int N) {
+        List<Integer> fib = new ArrayList<>();
+        fib.add(0);
+        fib.add(1);
+        int i = 2;
+        while (fib.get(i-1) <= N) {
+            fib.add(fib.get(i-1) + fib.get(i-2));
+            i++;
+        }
+        fib.remove(0);
+        Collections.reverse(fib);
+        return fib;
+    }
+}
