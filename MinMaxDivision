@@ -1,0 +1,43 @@
+class Solution {
+    public int solution(int K, int M, int[] A) {
+        int minSum = 0;
+        int maxSum = 0;
+        int n = A.length;
+        for (int i=0; i < n; i++) {
+            maxSum += A[i];
+            minSum = Math.max(minSum, A[i]);
+        }
+
+        int res = maxSum;
+        int mid;
+        while (minSum <= maxSum) {
+            mid = (minSum + maxSum) / 2;
+            
+            if (checkDivisible(mid, K, A)) {
+                res = mid;
+                maxSum = mid - 1;
+            } else {
+                minSum = mid + 1;
+            }
+        }
+
+        return res;
+    }
+
+    private boolean checkDivisible(int mid, int K, int[] A) {
+        int n = A.length;
+        int blockSum = 0;
+        for (int i=0; i < n; i++) {
+            blockSum += A[i];
+
+            if (blockSum > mid) {
+                K--;
+                blockSum = A[i];
+            }
+
+            if (K == 0) return false;
+        }
+
+        return true;
+    }
+}
